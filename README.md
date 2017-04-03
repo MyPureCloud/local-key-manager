@@ -1,7 +1,8 @@
 # Local Key Encryption Service
 
-This repository is an example local key management service written in Java with Spring. Although this service is almost production ready,
-a few changes will need to be made before it can be used in production. Those items are documented below.
+This repository is an example local key management service written in Java with Spring. Although it is possible to use this service with a few small changes, it is important to note that this is merely an example of how to use the API.
+
+**Make sure that your local key manager implementations are reliable, highly available, and secure. If encryption keys are lost, it will no longer be possible to retrieve the recordings encrypted with them. Use this code at your own risk.**
 
 
 ## General Documentation and Explanation of work flows
