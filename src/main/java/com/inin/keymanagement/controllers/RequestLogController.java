@@ -33,6 +33,7 @@ public class RequestLogController {
      * @return a collection of RequestLog entries, ordered from most recent to least recent
      */
     @RequestMapping(value = "/request-log", method = RequestMethod.GET)
+    @AuthRequired
     @ResponseBody
     public List<RequestLog> getRequestLogs(
             @RequestParam(value = "maxEntries", required = false, defaultValue = "100")
@@ -49,18 +50,18 @@ public class RequestLogController {
         return requestLoggingService.getRequestLogEntries(maxEntries, earliestTime, latestTime);
     }
 
-// USED FOR TESTING.  COMMENTED OUT TO PRESERVE REQUEST LOG
-//    /**
-//     * Deletes all the request log entries for the service
-//     */
-//    @RequestMapping(value = "/request-log", method = RequestMethod.DELETE)
-//    @ResponseBody
-//    public void deleteRequestLogs(
-//            HttpServletRequest request,
-//            HttpServletResponse response
-//    ) {
-//        requestLoggingService.clearRequestLogEntries();
-//        response.setStatus(200);
-//    }
+    /**
+     * Deletes all the request log entries for the service
+     */
+    @RequestMapping(value = "/request-log", method = RequestMethod.DELETE)
+    @AuthRequired
+    @ResponseBody
+    public void deleteRequestLogs(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        requestLoggingService.clearRequestLogEntries();
+        response.setStatus(200);
+    }
 
 }

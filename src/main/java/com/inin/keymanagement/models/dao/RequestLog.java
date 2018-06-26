@@ -62,6 +62,6 @@ public class RequestLog {
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
     public RequestLog withTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; return this; }
 
-    @JsonProperty("timestamp-string")
+    @JsonProperty("timestampString")
     public String getTimestampAsString() { return timestamp.format(isoFormat); }
 }
