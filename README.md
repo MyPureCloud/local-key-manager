@@ -133,6 +133,8 @@ For step 6, this is important. At this time, the Edge will start using the provi
 If for whatever reason, your service is not up, you will not be able to transcode or download recordings encrypted with the local key pair.
 Make sure you do not remove ANY key pairs that have been used by PureCloud at any point because those recordings will be locked forever.
 
+The user id of the PureCloud user making decryption requests or key pair generation requests that are sent to the local key encryption service via a HTTP header named `PureCloud-User-Id`.  
+
 Even if you plan on not using this service, please take a minute to look around and read the code comments as they explain
 certain details of decryption workflow with more specifics.
 
@@ -252,15 +254,14 @@ service.
 First, you will need to set up an identification for PureCloud's consuming api. In order to do this, you can send a post
 to the authentication endpoint.
 
-```
 ##### Input
-
+```
 {
     "id": "Identification of the hawk authentication"
 }
-
+```
 ##### Success Output
-
+```
 {
     "id": "Id Input",
     "authKey": "The authorization key that will be shared with PureCloud",
@@ -281,12 +282,12 @@ This endpoint allows you to generate a new keypair. You will need to be authenti
 The POST is an action endpoint and requires no body to generate a keypair. Whenever you generate a keypair, you will need to 
 let Purecloud know, so that we can encrypt recordings with the key.
 
-```
 ##### Input 
+```
 nothing : An action request
-
+```
 ##### Success Output
-
+```
 {
     "id": "String",
     "publicKey": "String",
@@ -297,9 +298,8 @@ nothing : An action request
 
 #### GET
 
-```
 ##### Success Output
-
+```
 [{
        "id": "String",
        "publicKey": "String",
@@ -315,9 +315,8 @@ Gets a single keypair
 
 #### GET
 
-```
 ##### Success Output
-
+```
 {
     "id": "String",
     "publicKey": "String",
@@ -325,7 +324,6 @@ Gets a single keypair
 }
 
 ```
-
 
 Once you have created a keypair, you can send it to the post keypair endpoint. It will require knowing the local configuration id,
 the base64 encoded public key, and the keypair id.
@@ -335,18 +333,82 @@ the base64 encoded public key, and the keypair id.
 
 Decrypts an encrypted payload. This requires authentication as well.
 
-```
 ##### Input
+```
 
 {
     "keypairId": "String",
     "body": "String"
 }
-
+```
 ##### Success Output
+```
 
 {
     "body": "String"
 }
+
+```
+
+### key-management/v1/request-log
+
+This feature is not required for key management or decryption, but is instead
+presented as an example of how to use the `Purecloud-User-Id` header to produce
+useful request logging information.
+
+Whenever a request is made against an authenticated enpoint, the request is logged.  Logged information
+includes the PureCloud user id making the request, the request method (POST, PUT, GET, etc.), the URI used
+in the request, and the date and time of the request.
+
+The request log can be retrieved by making GET request to `key-management/v1/request-log`.  By default, it
+will retrieve up to 100 of the most recent log entries.  Query request parameters may be
+used in order to change the log entries retrieved.  You will need to be authenticated to use the endpoint.
+
+The request log can be cleared of all existing entries by making a DELETE request to `key-management/v1/request-log`.  You will need to be authenticated to use the endpoint.
+
+#### GET
+##### Query parameters
+* **maxEntries**  Sets the maximum number of request log entries that will be returned
+* **earliestTime**  Sets the earliest/oldest date/time of request log entries that will be returned.  Must be specified in
+ISO8601 format
+* **latestTime**  Sets the latest/newest date/time of request log entries that will be returned.  Must be specified in
+ ISO8601 format
+
+##### Success Output (example)
+```
+[
+    {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "userId": "yyyyyyyy-yyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+        "requestUri": "/key-management/v1/decrypt",
+        "requestMethod": "POST",
+        "timestamp": [
+            2015,
+            8,
+            31,
+            13,
+            49,
+            22,
+            444000000
+        ],
+        "timestamp-String": "2015-08-31T13:49:22.444"
+    },
+    {
+        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "userId": "yyyyyyyy-yyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+        "requestUri": "/key-management/v1/decrypt",
+        "requestMethod": "OPTIONS",
+        "timestamp": [
+            2015,
+            8,
+            29,
+            16,
+            17,
+            53,
+            952000000
+        ],
+        "timestampString": "2015-08-29T16:17:53.952"
+    }
+]
 
 ```
