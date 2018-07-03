@@ -5,9 +5,12 @@ import com.inin.keymanagement.exceptions.BadRequestException;
 import com.inin.keymanagement.models.dao.HawkModel;
 import com.inin.keymanagement.models.dto.auth.HawkRequest;
 import com.inin.keymanagement.models.repositories.HawkDaoRepository;
+import com.inin.keymanagement.utils.CryptographyHelper;
 import net.jalg.hawkj.Algorithm;
 import net.jalg.hawkj.AuthorizationHeader;
 import net.jalg.hawkj.HawkContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -16,12 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.net.URI;
 import java.security.SecureRandom;
+import java.util.Optional;
 
 /**
  * This class handles the hawk authentication. https://github.com/hueniverse/hawk
  */
 @Service
 public class HawkAuthentication {
+    private static final Logger LOG = LoggerFactory.getLogger(HawkAuthentication.class);
 
     @Autowired
     private HawkDaoRepository repository;
@@ -55,19 +60,34 @@ public class HawkAuthentication {
      * @throws Exception throws general exception
      */
     public boolean isAuthenticated(HttpServletRequest request) throws Exception {
+        if (null == request.getHeader(HttpHeaders.AUTHORIZATION)) {
+            LOG.warn("No authorization header present");
+            return false;
+        }
+        LOG.debug("Raw Authorization header <{}>", request.getHeader(HttpHeaders.AUTHORIZATION));
         AuthorizationHeader authorizationHeader = AuthorizationHeader.authorization(request.getHeader(HttpHeaders.AUTHORIZATION));
         if (authorizationHeader == null || authorizationHeader.getId() == null) {
+            LOG.warn("No authorization header: Raw Authorization header <{}>",
+                    request.getHeader(HttpHeaders.AUTHORIZATION));
             return false;
         }
+        LOG.debug("Parsed Authorization header <{}>", authorizationHeader);
         HawkModel hm = getHawkModel(authorizationHeader.getId());
         if (hm == null){
+            LOG.error("HawkModel is null");
             return false;
         }
+        LOG.debug("Hawk model <{}>", hm);
 
         HawkContext hawk = HawkContext.request(request.getMethod(), request.getServletPath(), request.getServerName(), request.getServerPort())
                 .credentials(hm.getId(), hm.getAuthKey(), Algorithm.fromString(hm.getAlgorithm()))
                 .tsAndNonce(authorizationHeader.getTs(), authorizationHeader.getNonce())
                 .build();
+        try {
+            boolean t = hawk.isValidMac(authorizationHeader.getMac());
+        } catch (Exception e) {
+            LOG.error("Exception during haw.isValidMac(): ", e);
+        }
 
         return hawk.isValidMac(authorizationHeader.getMac());
     }

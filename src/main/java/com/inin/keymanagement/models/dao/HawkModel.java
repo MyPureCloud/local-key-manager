@@ -1,5 +1,7 @@
 package com.inin.keymanagement.models.dao;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 /**
@@ -39,5 +41,14 @@ public class HawkModel {
 
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("authKey", authKey)
+                .append("algorithm", algorithm)
+                .toString();
     }
 }
