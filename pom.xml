@@ -21,7 +21,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <org.aspectj.version>1.8.6</org.aspectj.version>
-    <com.fasterxml.jackson.version>2.9.5</com.fasterxml.jackson.version>
+    <com.fasterxml.jackson.version>2.10.3</com.fasterxml.jackson.version>
     <java.version>1.8</java.version>
     <scala.version>2.10.4</scala.version>
 </properties>
