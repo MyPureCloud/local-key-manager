@@ -7,6 +7,7 @@ import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.pkcs.RSAPrivateKey;
+import org.bouncycastle.crypto.encodings.PKCS1Encoding;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.digests.SHA1Digest;
@@ -71,15 +72,34 @@ public class CryptographyHelper {
      * @return the decrypted kek. This should be returned to PC.
      */
     public byte[] decryptKek(byte[] privateKey, byte[] encryptedKey){
+
         try {
             AsymmetricBlockCipher cipher = new OAEPEncoding(new RSAEngine(), new SHA1Digest());
             RSAPrivateKey rsaPrivateKey = RSAPrivateKey.getInstance(ASN1Sequence.fromByteArray(privateKey));
             cipher.init(false, new RSAKeyParameters(true, rsaPrivateKey.getModulus(), rsaPrivateKey.getPrivateExponent()));
             return cipher.processBlock(encryptedKey, 0, encryptedKey.length);
+
         } catch (Exception e) {
             LOG.error("There was an error decrypting kek: ", e);
         }
         return null;
+    }
+
+    public byte[] decryptKekFromCms(byte[] privateKey, byte[] encryptedKey){
+        try {
+            AsymmetricBlockCipher cipher = new PKCS1Encoding(new RSAEngine());
+            RSAPrivateKey rsaPrivateKey = RSAPrivateKey.getInstance(ASN1Sequence.fromByteArray(privateKey));
+            cipher.init(false, new RSAKeyParameters(true, rsaPrivateKey.getModulus(), rsaPrivateKey.getPrivateExponent()));
+            return cipher.processBlock(encryptedKey, 0, encryptedKey.length);
+
+        } catch (Exception e) {
+            LOG.error("There was an error decrypting kek from CMS: ", e);
+        }
+        return null;
+    }
+
+    public byte[] decryptKekFromCms(byte[] privateKey, String base64EncodedKey) {
+        return decryptKekFromCms(privateKey, Base64.decode(base64EncodedKey));
     }
 
     /**
