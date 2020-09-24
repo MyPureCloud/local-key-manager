@@ -24,15 +24,14 @@ public class DecryptionController {
      * It is here to decrypt the kek of a recording.
      * Authorization should be required
      * @param encryptBody payload coming from encryption service
-     * @param decryptType "pkcs1" if decrypting from CMS envelope (empty otherwise)
      * @return a decrypted body with base64 string decrypted kek
      */
     @RequestMapping(value = "/decrypt", method = RequestMethod.POST)
     @AuthRequired
     @ResponseBody
-    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody, @RequestBody String decryptType) {
+    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody) {
         if (encryptBody != null && encryptBody.getKeypairId() != null && encryptBody.getBody() != null){
-            return decryptionService.decrypt(encryptBody.getBody(), encryptBody.getKeypairId(), decryptType);
+            return decryptionService.decrypt(encryptBody.getBody(), encryptBody.getKeypairId(), encryptBody.getDecryptType());
         }
         throw new BadRequestException("Decrypt body and keypairId must be filled out");
     }
