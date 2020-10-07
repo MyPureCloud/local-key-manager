@@ -31,6 +31,9 @@ public class DecryptionController {
     @ResponseBody
     public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody) {
         if (encryptBody != null && encryptBody.getKeypairId() != null && encryptBody.getBody() != null){
+            if (encryptBody.getDecryptType() != null && !(encryptBody.getDecryptType().equals("pkcs1"))) {
+                throw new BadRequestException("If provided, decryptType must be either \"pkcs1\" or null");
+            }
             return decryptionService.decrypt(encryptBody.getBody(), encryptBody.getKeypairId(), encryptBody.getDecryptType());
         }
         throw new BadRequestException("Decrypt body and keypairId must be filled out");
