@@ -41,17 +41,25 @@ public class DecryptionService {
      * @param keypairId the keypairId
      * @return Decrypt response with the decrypted kek
      */
-    public DecryptResponse decrypt(String base64Text, String keypairId){
+    public DecryptResponse decrypt(String base64Text, String keypairId, String decryptType){
         Keypair keypair = keypairRepository.findOne(keypairId);
         if (keypair == null){
             throw new BadRequestException("No key pair found with the id provided");
         }
+
         try {
-            byte[] decryptedBytes = cryptographyHelper.decryptKek(Base64.decodeBase64(keypair.getPrivateKey()), base64Text);
+            byte[] decryptedBytes = null;
+            if (decryptType != null && decryptType.equals("pkcs1")) {
+                decryptedBytes = cryptographyHelper.decryptKekFromCms(Base64.decodeBase64(keypair.getPrivateKey()), base64Text);
+            }
+            else {
+                decryptedBytes = cryptographyHelper.decryptKek(Base64.decodeBase64(keypair.getPrivateKey()), base64Text);
+            }
             return new DecryptResponse(Base64.encodeBase64String(decryptedBytes));
         } catch (Exception e){
             throw new RuntimeException("Unknown error with decryption");
         }
     }
+
 
 }
