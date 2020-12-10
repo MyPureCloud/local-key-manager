@@ -29,12 +29,12 @@ public class DecryptionController {
     @RequestMapping(value = "/decrypt", method = RequestMethod.POST)
     @AuthRequired
     @ResponseBody
-    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody) {
+    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody, @RequestParam(name = "decryptType", required = false) String decryptType) {
         if (encryptBody != null && encryptBody.getKeypairId() != null && encryptBody.getBody() != null){
-            if (encryptBody.getDecryptType() != null && !(encryptBody.getDecryptType().equals("pkcs1"))) {
+            if (decryptType != null && !(decryptType.equals("pkcs1"))) {
                 throw new BadRequestException("If provided, decryptType must be either \"pkcs1\" or null");
             }
-            return decryptionService.decrypt(encryptBody.getBody(), encryptBody.getKeypairId(), encryptBody.getDecryptType());
+            return decryptionService.decrypt(encryptBody.getBody(), encryptBody.getKeypairId(), decryptType);
         }
         throw new BadRequestException("Decrypt body and keypairId must be filled out");
     }
