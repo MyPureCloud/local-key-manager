@@ -24,6 +24,7 @@ public class DecryptionController {
      * It is here to decrypt the kek of a recording.
      * Authorization should be required
      * @param encryptBody payload coming from encryption service
+     * @param decryptType indicates if the encrypted kek is from CMS - either "pkcs1" or null
      * @return a decrypted body with base64 string decrypted kek
      */
     @RequestMapping(value = "/decrypt", method = RequestMethod.POST)
