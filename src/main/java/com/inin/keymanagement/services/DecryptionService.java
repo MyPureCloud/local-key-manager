@@ -42,7 +42,7 @@ public class DecryptionService {
      * @return Decrypt response with the decrypted kek
      */
     public DecryptResponse decrypt(String base64Text, String keypairId, String decryptType){
-        Keypair keypair = keypairRepository.findOne(keypairId);
+        Keypair keypair = keypairRepository.findById(keypairId).orElse(null);
         if (keypair == null){
             throw new BadRequestException("No key pair found with the id provided");
         }

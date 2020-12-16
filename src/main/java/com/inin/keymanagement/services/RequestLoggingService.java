@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 public class RequestLoggingService {
-    private static Sort timestampSort = new Sort(Sort.Direction.DESC, "timestamp");
+    private static Sort timestampSort = Sort.by(Sort.Direction.DESC, "timestamp");
 
     @Autowired
     RequestLogRepository requestLogRepository;
@@ -28,7 +28,7 @@ public class RequestLoggingService {
 
     public synchronized List<RequestLog> getRequestLogEntries(int maxEntries, LocalDateTime earliestTime, LocalDateTime latestTime) {
         return requestLogRepository.findByTimestampBetween(earliestTime, latestTime,
-                new PageRequest(0, maxEntries, timestampSort));
+                PageRequest.of(0, maxEntries, timestampSort));
     }
 
     public synchronized void clearRequestLogEntries() {
