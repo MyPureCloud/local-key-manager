@@ -5,7 +5,6 @@ import com.inin.keymanagement.exceptions.BadRequestException;
 import com.inin.keymanagement.models.dao.HawkModel;
 import com.inin.keymanagement.models.dto.auth.HawkRequest;
 import com.inin.keymanagement.models.repositories.HawkDaoRepository;
-import com.inin.keymanagement.utils.CryptographyHelper;
 import net.jalg.hawkj.Algorithm;
 import net.jalg.hawkj.AuthorizationHeader;
 import net.jalg.hawkj.HawkContext;
@@ -17,9 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
-import java.net.URI;
 import java.security.SecureRandom;
-import java.util.Optional;
 
 /**
  * This class handles the hawk authentication. https://github.com/hueniverse/hawk
@@ -37,7 +34,7 @@ public class HawkAuthentication {
      * @return the hawkmodel with important service related information
      */
     public HawkModel registerService(HawkRequest hr) {
-        if (hr.getId() == null || hr.getId().length() < 6 || repository.findOne(hr.getId()) != null) {
+        if (hr.getId() == null || hr.getId().length() < 6 || repository.findById(hr.getId()).isPresent()) {
             throw new BadRequestException("authentication needs a unique id and must be over 5 characters");
         }
         HawkModel hm = generateHawkModel(hr.getId());
@@ -50,7 +47,7 @@ public class HawkAuthentication {
      * @return hawk model
      */
     public HawkModel getHawkModel(String id) {
-        return repository.findOne(id);
+        return repository.findById(id).orElse(null);
     }
 
     /**

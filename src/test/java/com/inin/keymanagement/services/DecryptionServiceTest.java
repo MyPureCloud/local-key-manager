@@ -4,7 +4,6 @@ import com.inin.keymanagement.exceptions.BadRequestException;
 import com.inin.keymanagement.models.dao.Keypair;
 import com.inin.keymanagement.models.dto.DecryptResponse;
 import com.inin.keymanagement.models.repositories.KeypairRepository;
-import com.inin.keymanagement.utils.CryptographyHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -30,7 +30,7 @@ public class DecryptionServiceTest {
     @Test
     public void testDecryption(){
         Keypair keypair = createKeypair();
-        when(keypairRepository.findOne(anyString())).thenReturn(keypair);
+        when(keypairRepository.findById(anyString())).thenReturn(Optional.of(keypair));
 
         DecryptResponse decryptResponse = decryptionService.decrypt(getEncryptedKey(), keypair.getId(), null);
         Assert.assertEquals(decryptResponse.getBody(), "7+YOUOgTgqOfhKRq0//eS94VrhyCwiYbQQcgfrOaG5g=");
@@ -39,7 +39,7 @@ public class DecryptionServiceTest {
     @Test
     public void testDecryptionOfPKCS1() {
         Keypair keypair = createCMSKeypair();
-        when(keypairRepository.findOne(anyString())).thenReturn(keypair);
+        when(keypairRepository.findById(anyString())).thenReturn(Optional.of(keypair));
 
         DecryptResponse decryptResponse = decryptionService.decrypt(getPKCS1EncryptedDek(), keypair.getId(), "pkcs1");
         Assert.assertEquals("PKIKLwo2+u9VH4tDHRizx8Lk9eyz2H/yUA6P6uqsKy8=", decryptResponse.getBody());
@@ -47,7 +47,7 @@ public class DecryptionServiceTest {
 
     @Test(expected = BadRequestException.class)
     public void testNullKeyPairDecryption(){
-        when(keypairRepository.findOne(anyString())).thenReturn(null);
+        when(keypairRepository.findById(anyString())).thenReturn(Optional.empty());
         decryptionService.decrypt("string", "keypairId", null);
     }
 

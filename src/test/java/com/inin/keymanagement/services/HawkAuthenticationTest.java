@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,7 +30,7 @@ public class HawkAuthenticationTest {
         hModel.setAlgorithm("sha256");
         hModel.setId("DerekM");
         hModel.setAuthKey("SomeKey");
-        when(repository.findOne(anyString())).thenReturn(null);
+        when(repository.findById(anyString())).thenReturn(Optional.empty());
         when(repository.save(any(HawkModel.class))).thenReturn(new HawkModel());
         HawkRequest hr = new HawkRequest();
         hr.setId("DerekM");
@@ -40,7 +42,7 @@ public class HawkAuthenticationTest {
 
     @Test(expected = BadRequestException.class)
     public void hawkNoDuplicateIds(){
-        when(repository.findOne(anyString())).thenReturn(new HawkModel());
+        when(repository.findById(anyString())).thenReturn(Optional.of(new HawkModel()));
         HawkRequest hr = new HawkRequest();
         hr.setId("Derek");
         hawkAuthentication.registerService(hr);
