@@ -12,20 +12,20 @@ key pairs and decrypt incoming payloads, it is worth noting the requirements aro
 to use your own solution for key management. First, this part of the documentation will give an overview of the workflow, then
 get into more of the specific details around the service.
 
-### Registering a local key management service for your org with PureCloud
+### Registering a local key management service for your org with Genesys Cloud
 
 A general work flow to get your local service acknowledged and production ready is listed below.
 
 The following values will need to be replaced in the sample REST exchanges below:
-PURECLOUD_PUBLIC_API_PUBLIC_ADDRESS - Publicly addressable endpoint for API access to your organization's configuration (See https://developer.mypurecloud.com/api/rest/, in North America this would be https://api.mypurecloud.com)
-LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key management service is listening on.
+* GENESYS_CLOUD_PUBLIC_API_PUBLIC_ADDRESS - Publicly addressable endpoint for API access to your organization's configuration (See  https://developer.genesys.cloud/api/rest/, for example this would be https://api.mypurecloud.com)
+* LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key management service is listening on.
 
 
 1. First get your service running with https (port 443), and ensure all endpoints are working as expected, including authentication.
    You should also make sure you have an options action around your decrypt endpoint, so that we can verify the endpoint exists (during step 4 below)
 
 
-2. Register a hawk authentication key for PureCloud, so that Purecloud can directly hit the service. Once you get the return values be sure to record them as you will need to send the results to the PureCloud local configuration endpoint.
+2. Register a hawk authentication key for Genesys Cloud, so that Purecloud can directly hit the service. Once you get the return values be sure to record them as you will need to send the results to the Genesys Cloud local configuration endpoint.
 
    `POST https://[LOCAL_KEY_MANAGER_PUBLIC_ADDRESS]/key-management/v1/auth` with header `Content-Type: application/json`
 
@@ -44,7 +44,7 @@ LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key 
      "algorithm": "sha256"
    }
    ```
-3. Register your application with PureCloud and get the proper OAuth2 credentials to access the public api.
+3. Register your application with Genesys Cloud and get the proper OAuth2 credentials to access the public api.
 
 4. Send over the api id, api key, and decryption url to the public api local configuration endpoint.
 
@@ -89,7 +89,7 @@ LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key 
 
 6. Send the public key, config id, keypair id to the public api key creation endpoint.
 
-    `POST https://PURECLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/localkeys`
+    `POST https://GENESYS_CLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/localkeys`
 
     ```
     {
@@ -112,28 +112,28 @@ LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key 
 
 Additional notes:
 
-For more details about PureCloud's public api, please visit: https://developer.mypurecloud.com/
+For more details about Genesys Cloud's public api, please visit: https://developer.genesys.cloud/
 
 For step 2, you can use all of the code here in the service to help set up hawk authentication. The library in the pom
 takes care of most of the nuances involved in setting up the authentication. To experiment with hawk authentication with postman,
 you can follow this tutorial here on how to set it up. http://blog.getpostman.com/2015/12/05/postman-v3-2-is-out-with-hawk-authentication-support/
 
-For step 3, visit https://developer.mypurecloud.com/api/tutorials.html to get a better understanding of our oauth flows.
-https://developer.mypurecloud.com/api/rest/authorization/ also provides detailed information on how PureCloud's authentication works.
+For step 3, visit https://developer.genesys.cloud/api/tutorials.html to get a better understanding of our oauth flows.
+https://developer.genesys.cloud/api/rest/authorization/ also provides detailed information on how Genesys Cloud's authentication works.
 
-For step 4, as mentioned above, make sure the decryption endpoint sent to PureCloud has an OPTIONS method, so that PureCloud
+For step 4, as mentioned above, make sure the decryption endpoint sent to Genesys Cloud has an OPTIONS method, so that Genesys Cloud
 can verify if the endpoint exists or not. It is also worth mentioning that we require the endpoint to be accept a POST for decryption.
 
-For step 5, PureCloud currently requires RSA 3072 bit key pairs that are DER encoded. This is important because other types of
-key encoding will NOT work. For security reasons, never share your private key with anyone. You may receive an error from PureCloud
+For step 5, Genesys Cloud currently requires RSA 3072 bit key pairs that are DER encoded. This is important because other types of
+key encoding will NOT work. For security reasons, never share your private key with anyone. You may receive an error from Genesys Cloud
 mentioning you service isn't ready. We know this because we send a sample decrypt request immediately after the keypair is registered to verify
 the endpoint works and exists.
 
 For step 6, this is important. At this time, the Edge will start using the provided public key sent with the keypair for encyption.
 If for whatever reason, your service is not up, you will not be able to transcode or download recordings encrypted with the local key pair.
-Make sure you do not remove ANY key pairs that have been used by PureCloud at any point because those recordings will be locked forever.
+Make sure you do not remove ANY key pairs that have been used by Genesys Cloud at any point because those recordings will be locked forever.
 
-The user id of the PureCloud user making decryption requests or key pair generation requests that are sent to the local key encryption service via a HTTP header named `PureCloud-User-Id`.  
+The user id of the Genesys Cloud user making decryption requests or key pair generation requests that are sent to the local key encryption service via a HTTP header named `PureCloud-User-Id`.  
 
 Even if you plan on not using this service, please take a minute to look around and read the code comments as they explain
 certain details of decryption workflow with more specifics.
@@ -226,10 +226,8 @@ a certificate with Let's Encrypt.
 
 https://tty1.net/blog/2015/using-letsencrypt-in-manual-mode_en.html
 
-https://github.com/Daplie/letsencrypt-cli
-
 After you get the signed certificate, you will need to add the path to the application.properties file.
-You will notice commented out properties in the application.properties file. Those will need uncommented to use the api. 
+You will notice commented out properties in the application.properties file. Those will need to be uncommented to use the api. 
 Note, based on the file type you choose, you may need to change the key-store-type from PKCS12 to whatever
 format that you choose. It is worth noting that spring prefers jks for certificates.
 Whatever your format is you can search on how to convert your file's format to the jks format.
@@ -239,19 +237,19 @@ Whatever your format is you can search on how to convert your file's format to t
 
 The below documentation shows how to use the api. Even if you are not using 
 this service, it is very important to read the documentation below as it provides
-the interface that is needed to interact with PureCloud.
+the interface that is needed to interact with Genesys Cloud.
 
 
 ### /key-management/v1/auth
 
-All endpoints need some sort of authentication. PureCloud's encryption endpoints require hawk authentication to
+All endpoints need some sort of authentication. Genesys Cloud's encryption endpoints require hawk authentication to
 be able to use the application. Below are the endpoints and explanations for how to set up Hawk Authentication with the
 service. 
 
 
 #### POST
 
-First, you will need to set up an identification for PureCloud's consuming api. In order to do this, you can send a post
+First, you will need to set up an identification for Genesys Cloud's consuming api. In order to do this, you can send a post
 to the authentication endpoint.
 
 ##### Input
@@ -264,13 +262,13 @@ to the authentication endpoint.
 ```
 {
     "id": "Id Input",
-    "authKey": "The authorization key that will be shared with PureCloud",
+    "authKey": "The authorization key that will be shared with Genesys Cloud",
     "algorithm": "Algorithm used for hawk model encryption"
 }
 
 ```
 
-Once you have registered a hawk authenticate service, you can then send the details to PureCloud local configuration resource.
+Once you have registered a hawk authenticate service, you can then send the details to Genesys Cloud local configuration resource.
 It will require you to send the id, authkey, and the url to reach your service.
 
 ### /key-management/v1/keypair
@@ -357,7 +355,7 @@ presented as an example of how to use the `Purecloud-User-Id` header to produce
 useful request logging information.
 
 Whenever a request is made against an authenticated enpoint, the request is logged.  Logged information
-includes the PureCloud user id making the request, the request method (POST, PUT, GET, etc.), the URI used
+includes the Genesys Cloud user id making the request, the request method (POST, PUT, GET, etc.), the URI used
 in the request, and the date and time of the request.
 
 The request log can be retrieved by making GET request to `key-management/v1/request-log`.  By default, it
