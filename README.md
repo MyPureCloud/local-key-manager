@@ -46,15 +46,16 @@ LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key 
    ```
 3. Register your application with PureCloud and get the proper OAuth2 credentials to access the public api.
 
-4. Send over the api id, api key, and decryption url to the public api local configuration endpoint.
+4. Set up your local key manager key configuration in Genesys Cloud UI, see this article [Local key management](https://help.mypurecloud.com/articles/local-key-management/) for UI instruction. Or alternatively you could send over the api id, api key, decryption url and key configuration type to the public api key configuration endpoint.
 
-    `POST https://PURECLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/localkeys/settings`  with `Content-Type: application/json` AND OAuth2 headers
+    `POST https://PURECLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/keyconfigurations`  with `Content-Type: application/json` AND OAuth2 headers
 
     ```
     {
       "url": "https://LOCAL_KEY_MANAGER_INSTANCE_ADDRESS/key-management/v1/decrypt",
       "apiId": "KEY_IDENTIFIER",
-      "apiKey": "GENERATED_AUTH_KEY"
+      "apiKey": "GENERATED_AUTH_KEY",
+      "keyConfigurationType": "LocalKeyManager"
     }
     ```
 
@@ -66,7 +67,9 @@ LOCAL_KEY_MANAGER_PUBLIC_ADDRESS - Publicly addressable endpoint your local key 
       "url": "https://LOCAL_KEY_MANAGER_INSTANCE_ADDRESS/key-management/v1/decrypt",
       "apiId": "KEY_IDENTIFIER",
       "apiKey": "GENERATED_AUTH_KEY",
-      "selfUri": "/api/v2/recording/localkeys"
+      "keyConfigurationType":"LocalKeyManager",
+      "encryptionDomain":"Recording",
+      "selfUri":"/api/v2/recording/keyconfigurations"
     }
     ```
 
