@@ -25,7 +25,7 @@ The following values will need to be replaced in the sample REST exchanges below
    You should also make sure you have an options action around your decrypt endpoint, so that we can verify the endpoint exists (during step 4 below)
 
 
-2. Register a hawk authentication key for Genesys Cloud, so that Purecloud can directly hit the service. Once you get the return values be sure to record them as you will need to send the results to the Genesys Cloud local configuration endpoint.
+2. Register a hawk authentication key for Genesys Cloud, so that Genesys Cloud can directly hit the service. Once you get the return values be sure to record them as you will need to send the results to the Genesys Cloud local configuration endpoint.
 
    `POST https://[LOCAL_KEY_MANAGER_PUBLIC_ADDRESS]/key-management/v1/auth` with header `Content-Type: application/json`
 
@@ -48,7 +48,7 @@ The following values will need to be replaced in the sample REST exchanges below
 
 4. Set up your local key manager key configuration in Genesys Cloud UI, see this article [Local key management](https://help.mypurecloud.com/articles/local-key-management/) for UI instruction. Or alternatively you could send over the api id, api key, decryption url and key configuration type to the public api key configuration endpoint.
 
-    `POST https://PURECLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/keyconfigurations`  with `Content-Type: application/json` AND OAuth2 headers
+    `POST https://GENESYSCLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/keyconfigurations`  with `Content-Type: application/json` AND OAuth2 headers
 
     ```
     {
@@ -354,7 +354,7 @@ Decrypts an encrypted payload. This requires authentication as well.
 ### key-management/v1/request-log
 
 This feature is not required for key management or decryption, but is instead
-presented as an example of how to use the `Purecloud-User-Id` header to produce
+presented as an example of how to use the `PureCloud-User-Id` header to produce
 useful request logging information.
 
 Whenever a request is made against an authenticated enpoint, the request is logged.  Logged information
