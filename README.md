@@ -27,6 +27,8 @@ The following values will need to be replaced in the sample REST exchanges below
 
 2. Register a hawk authentication key for Genesys Cloud, so that Genesys Cloud can directly hit the service. Once you get the return values be sure to record them as you will need to send the results to the Genesys Cloud local configuration endpoint.
 
+   The key identifier must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+
    `POST https://[LOCAL_KEY_MANAGER_PUBLIC_ADDRESS]/key-management/v1/auth` with header `Content-Type: application/json`
 
    ```
