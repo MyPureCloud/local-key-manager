@@ -75,7 +75,12 @@ The following values will need to be replaced in the sample REST exchanges below
 
    Make sure you record the configuration id returned, since it will be needed for creation of keypairs.
 
-5. Create a keypair using the generate keypair endpoint on your local service. The generated keypair id must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt))
+5. Create a keypair using the generate keypair endpoint on your local service. 
+       
+   The generated keypair id must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+   
+   The publicKey must be a Base64 encoded RSA3072 key in [RFC 4716](https://www.ietf.org/rfc/rfc4716.txt) format. 
+   This means that the public key's ASN.1 sequence should not contain a sequence with an object identifier, it should only be a sequence of two integers (This can be tested by inputting the Base64 string into a [ASN.1 decoder](https://lapo.it/asn1js/)).
 
     `POST https://[LOCAL_KEY_MANAGER_PUBLIC_ADDRESS]/key-management/v1/keypair`
 
@@ -90,7 +95,12 @@ The following values will need to be replaced in the sample REST exchanges below
      ```
 
 
-6. Send the public key, config id, keypair id to the public api key creation endpoint. The keypairId must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+6. Send the public key, config id, keypair id to the public api key creation endpoint. 
+
+    The keypairId must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+    
+    The publicKey must be a Base64 encoded RSA3072 key in [RFC 4716](https://www.ietf.org/rfc/rfc4716.txt) format. 
+
 
     `POST https://GENESYS_CLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/localkeys`
 
@@ -281,7 +291,12 @@ This endpoint allows you to generate a new keypair. You will need to be authenti
 #### POST
 
 The POST is an action endpoint and requires no body to generate a keypair. Whenever you generate a keypair, you will need to 
-let Purecloud know, so that we can encrypt recordings with the key. The generated keypair id must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+let Purecloud know, so that we can encrypt recordings with the key. 
+
+The generated keypair id must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
+
+The publicKey must be a Base64 encoded RSA3072 key in [RFC 4716](https://www.ietf.org/rfc/rfc4716.txt) format. 
+This means that the public key's ASN.1 sequence should not contain a sequence with an object identifier, it should only be a sequence of two integers (can be tested by inputting the Base64 string into a [ASN.1 decoder](https://lapo.it/asn1js/))
 
 ##### Input 
 ```
