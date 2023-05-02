@@ -26,7 +26,7 @@
     <java.version>1.8</java.version>
     <scala.version>2.10.4</scala.version>
     <log4j.version>2.16.0</log4j.version>
-    <spring-framework.version>5.3.20</spring-framework.version>
+    <spring-framework.version>5.3.26</spring-framework.version>
 
 </properties>
 
