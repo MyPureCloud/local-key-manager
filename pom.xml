@@ -6,7 +6,7 @@
 
     <groupId>com.inin.keymanagement</groupId>
     <artifactId>com.inin.keymanagement</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
     <name>local-key-management</name>
 
