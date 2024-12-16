@@ -2,7 +2,7 @@ package com.inin.keymanagement.models.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 /**

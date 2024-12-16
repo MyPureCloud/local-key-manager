@@ -2,7 +2,7 @@ package com.inin.keymanagement.models.dao;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * Hibernate Hawk Model. Hibernate is an orm. The data here will map to the database configured.

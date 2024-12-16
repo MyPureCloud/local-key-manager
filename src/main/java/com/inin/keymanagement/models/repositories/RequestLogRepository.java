@@ -1,7 +1,9 @@
 package com.inin.keymanagement.models.repositories;
 
 import com.inin.keymanagement.models.dao.RequestLog;
+import org.apache.coyote.Request;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,6 @@ import java.util.List;
  * It also provides a timestamp-based query method.
  * Used by RequestLoggingService.
  */
-public interface RequestLogRepository extends PagingAndSortingRepository<RequestLog, String> {
+public interface RequestLogRepository extends CrudRepository<RequestLog, String>, PagingAndSortingRepository<RequestLog, String> {
     List<RequestLog> findByTimestampBetween(LocalDateTime earliest, LocalDateTime latest, Pageable pageable);
 }
