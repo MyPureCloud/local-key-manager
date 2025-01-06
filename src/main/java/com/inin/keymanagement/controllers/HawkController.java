@@ -20,7 +20,7 @@ public class HawkController {
      * @param hr HawkRequest Body
      * @return HawkModel with authentication information
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping("")
     @ResponseBody
     public HawkModel registerService(@RequestBody HawkRequest hr) {
         return hawkAuthentication.registerService(hr);

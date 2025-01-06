@@ -6,10 +6,10 @@ import com.inin.keymanagement.models.dao.RequestLog;
 import com.inin.keymanagement.services.HawkAuthentication;
 import com.inin.keymanagement.services.RequestLoggingService;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * This is the authentication interceptor that looks for the AuthRequired annotation
  */
-public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
+public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private HawkAuthentication authService;
     private RequestLoggingService requestLoggingService;
@@ -44,8 +44,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (handler instanceof HandlerMethod){
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
+        if (handler instanceof HandlerMethod handlerMethod){
             AuthRequired authRequired = handlerMethod.getMethod().getAnnotation(AuthRequired.class);
             if (authRequired != null && authRequired.required()) {
                 boolean valid = authService.isAuthenticated(request);

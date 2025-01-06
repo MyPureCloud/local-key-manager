@@ -20,7 +20,7 @@ public class KeypairController {
      * @return KeyPair
      * @throws Exception general exception
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping("")
     @AuthRequired
     @ResponseBody
     public Keypair createKeypair() throws Exception {
@@ -33,10 +33,10 @@ public class KeypairController {
      * @return KeyPair
      * @throws Exception throws general exception
      */
-    @RequestMapping(value = "/{keypairId}", method = RequestMethod.GET)
+    @GetMapping("/{keypairId}")
     @AuthRequired
     @ResponseBody
-    public Keypair getKeypair(@PathVariable("keypairId") String keypairId) throws Exception {
+    public Keypair getKeypair(@PathVariable String keypairId) throws Exception {
         return keyManagementService.getKeyPair(keypairId);
     }
 
@@ -45,7 +45,7 @@ public class KeypairController {
      * @return List of Keypairs
      * @throws Exception throws general exception
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping("")
     @AuthRequired
     @ResponseBody
     public List<Keypair> getKeypairs() throws Exception{

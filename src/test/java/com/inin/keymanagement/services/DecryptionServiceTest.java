@@ -4,20 +4,22 @@ import com.inin.keymanagement.exceptions.BadRequestException;
 import com.inin.keymanagement.models.dao.Keypair;
 import com.inin.keymanagement.models.dto.DecryptResponse;
 import com.inin.keymanagement.models.repositories.KeypairRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.nullable;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DecryptionServiceTest {
 
     @Mock
@@ -30,25 +32,25 @@ public class DecryptionServiceTest {
     @Test
     public void testDecryption(){
         Keypair keypair = createKeypair();
-        when(keypairRepository.findById(anyString())).thenReturn(Optional.of(keypair));
+        when(keypairRepository.findById(nullable(String.class))).thenReturn(java.util.Optional.of(keypair));
 
         DecryptResponse decryptResponse = decryptionService.decrypt(getEncryptedKey(), keypair.getId(), null);
-        Assert.assertEquals(decryptResponse.getBody(), "7+YOUOgTgqOfhKRq0//eS94VrhyCwiYbQQcgfrOaG5g=");
+        Assertions.assertEquals(decryptResponse.getBody(), "7+YOUOgTgqOfhKRq0//eS94VrhyCwiYbQQcgfrOaG5g=");
     }
-
     @Test
     public void testDecryptionOfPKCS1() {
         Keypair keypair = createCMSKeypair();
-        when(keypairRepository.findById(anyString())).thenReturn(Optional.of(keypair));
+        when(keypairRepository.findById(nullable(String.class))).thenReturn(java.util.Optional.of(keypair));
 
         DecryptResponse decryptResponse = decryptionService.decrypt(getPKCS1EncryptedDek(), keypair.getId(), "pkcs1");
-        Assert.assertEquals("PKIKLwo2+u9VH4tDHRizx8Lk9eyz2H/yUA6P6uqsKy8=", decryptResponse.getBody());
+        Assertions.assertEquals("PKIKLwo2+u9VH4tDHRizx8Lk9eyz2H/yUA6P6uqsKy8=", decryptResponse.getBody());
     }
-
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testNullKeyPairDecryption(){
-        when(keypairRepository.findById(anyString())).thenReturn(Optional.empty());
-        decryptionService.decrypt("string", "keypairId", null);
+        assertThrows(BadRequestException.class, () -> {
+            when(keypairRepository.findById(nullable(String.class))).thenReturn(Optional.empty());
+            decryptionService.decrypt("string", "keypairId", null);
+        });
     }
 
     private Keypair createKeypair(){

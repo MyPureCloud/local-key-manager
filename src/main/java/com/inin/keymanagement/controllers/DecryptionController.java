@@ -10,7 +10,7 @@ import com.inin.keymanagement.services.DecryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/key-management/v1")
@@ -27,10 +27,10 @@ public class DecryptionController {
      * @param decryptType indicates if the encrypted kek is from CMS - either "pkcs1" or null
      * @return a decrypted body with base64 string decrypted kek
      */
-    @RequestMapping(value = "/decrypt", method = RequestMethod.POST)
+    @PostMapping("/decrypt")
     @AuthRequired
     @ResponseBody
-    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody, @RequestParam(name = "decryptType", required = false) String decryptType) {
+    public DecryptResponse decrypt(@RequestBody @NotNull EncryptBody encryptBody, @RequestParam(required = false) String decryptType) {
         if (encryptBody != null && encryptBody.getKeypairId() != null && encryptBody.getBody() != null){
             if (decryptType != null && !(decryptType.equals("pkcs1"))) {
                 throw new BadRequestException("If provided, decryptType must be either \"pkcs1\" or null");
