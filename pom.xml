@@ -26,6 +26,8 @@
         <java.version>17</java.version>
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.17.2</log4j.version>
+        <tomcat.version>10.1.43</tomcat.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -77,22 +79,22 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
-            <version>10.1.39</version>
+            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>10.1.39</version>
+            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-annotations-api</artifactId>
-            <version>10.1.39</version>
+            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
-            <version>10.1.39</version>
+            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -161,6 +163,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
