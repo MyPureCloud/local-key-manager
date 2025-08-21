@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.4.9</version>
     </parent>
 
     <properties>
@@ -26,7 +26,7 @@
         <java.version>17</java.version>
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.17.2</log4j.version>
-        <tomcat.version>10.1.43</tomcat.version>
+        <tomcat.version>10.1.44</tomcat.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
 
