@@ -28,6 +28,7 @@
         <log4j.version>2.17.2</log4j.version>
         <tomcat.version>10.1.44</tomcat.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
+        <org.springframework.version>6.2.11</org.springframework.version>
     </properties>
 
     <dependencyManagement>
@@ -46,6 +47,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -53,6 +59,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -103,6 +110,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
