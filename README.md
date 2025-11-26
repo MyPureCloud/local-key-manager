@@ -428,3 +428,45 @@ ISO8601 format
 ]
 
 ```
+
+## Identifying Genesys Cloud IP Addresses for LKM Traffic
+
+### Using Genesys Cloud's /api/v2/ipranges Endpoint
+
+When Genesys Cloud's Encryption Service makes API requests to your Local Key Manager (LKM), these requests originate from specific IP addresses. You can use the Genesys Cloud Public API to retrieve these IP addresses and optionally configure IP-based access restrictions on your LKM instance to improve security.
+
+**Important:** The `/api/v2/ipranges` endpoint is part of the **Genesys Cloud Public API**, not your local key management service. You call this Genesys Cloud endpoint to retrieve the list of IP addresses that Genesys Cloud will use when connecting to your LKM.
+
+#### How to Retrieve LKM Traffic IP Ranges
+
+Make a GET request to the Genesys Cloud Public API:
+
+`GET https://GENESYS_CLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/ipranges`
+
+The response includes IP ranges organized by service type, region, and direction. Look for entries where the service corresponds to encryption service traffic to LKM.
+
+##### Example Response
+```
+[
+  {
+    "cidr": "192.0.2.0/24",
+    "service": "encryption",
+    "region": "us-east-1",
+    "direction": "outbound"
+  },
+  {
+    "cidr": "198.51.100.0/24",
+    "service": "encryption",
+    "region": "us-east-1",
+    "direction": "outbound"
+  }
+]
+```
+
+**Note:** The `direction` field indicates "outbound" from Genesys Cloud's perspective, meaning these are the source IP addresses for traffic originating from Genesys Cloud to your LKM service.
+
+#### Additional Resources
+
+For detailed instructions on using these IP addresses to configure firewall rules for LKM traffic, see:
+- [How can I obtain the IP address range that accesses the encryption keys stored in LKM?](https://help.genesys.cloud/articles/obtain-ip-address-range-lkm/) (Resource Center FAQ)
+- [IP addresses for the firewall allowlist](https://help.genesys.cloud/articles/ip-addresses-firewall-allowlist/) (Genesys Cloud Resource Center)
