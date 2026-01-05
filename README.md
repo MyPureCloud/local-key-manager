@@ -116,7 +116,7 @@ The following values will need to be replaced in the sample REST exchanges below
      ```
      {
        "id": "GENERATED_KEYPAIR_ID",
-       "createDate": "2016-11-17T14:24:19.211Z",
+       "createDate": "2026-11-17T14:24:19.211Z",
        "selfUri": "/api/v2/recording/recordingkeys"
      }
     ```
@@ -291,7 +291,7 @@ This endpoint allows you to generate a new keypair. You will need to be authenti
 #### POST
 
 The POST is an action endpoint and requires no body to generate a keypair. Whenever you generate a keypair, you will need to 
-let Purecloud know, so that we can encrypt recordings with the key. 
+let Genesys Cloud know, so that we can encrypt recordings with the key. 
 
 The generated keypair id must be in UUID format ([RFC 4122](https://www.ietf.org/rfc/rfc4122.txt)).
 
@@ -399,7 +399,7 @@ ISO8601 format
         "requestUri": "/key-management/v1/decrypt",
         "requestMethod": "POST",
         "timestamp": [
-            2015,
+            2025,
             8,
             31,
             13,
@@ -407,7 +407,7 @@ ISO8601 format
             22,
             444000000
         ],
-        "timestamp-String": "2015-08-31T13:49:22.444"
+        "timestampString": "2025-08-31T13:49:22.444"
     },
     {
         "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -415,7 +415,7 @@ ISO8601 format
         "requestUri": "/key-management/v1/decrypt",
         "requestMethod": "OPTIONS",
         "timestamp": [
-            2015,
+            2025,
             8,
             29,
             16,
@@ -423,7 +423,7 @@ ISO8601 format
             53,
             952000000
         ],
-        "timestampString": "2015-08-29T16:17:53.952"
+        "timestampString": "2025-08-29T16:17:53.952"
     }
 ]
 
