@@ -48,7 +48,7 @@ The following values will need to be replaced in the sample REST exchanges below
 
 4. Set up your local key manager key configuration in Genesys Cloud UI, see this article [Local key management](https://help.genesys.cloud/articles/local-key-management/) for UI instruction. Or alternatively you could send over the api id, api key, decryption url and key configuration type to the public api key configuration endpoint.
 
-    `POST https://GENESYSCLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/keyconfigurations`  with `Content-Type: application/json` AND OAuth2 headers
+    `POST https://GENESYS_CLOUD_PUBLIC_API_PUBLIC_ADDRESS/api/v2/recording/keyconfigurations`  with `Content-Type: application/json` AND OAuth2 headers
 
     ```
     {
