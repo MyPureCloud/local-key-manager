@@ -470,5 +470,5 @@ The response includes IP ranges organized by service type, region, and direction
 ### Additional Resources
 
 For additional information, see:
-- [How can I obtain the IP address range that accesses the encryption keys stored in LKM?](https://help.genesys.cloud/articles/obtain-ip-address-range-lkm/) (Resource Center FAQ)
-- [IP addresses for the firewall allowlist](https://help.genesys.cloud/articles/ip-addresses-firewall-allowlist/) (Genesys Cloud Resource Center)
+- [How can I obtain the IP address range that accesses the encryption keys stored in LKM?](https://help.mypurecloud.com/faqs/how-can-i-obtain-the-ip-address-range-that-accesses-the-encryption-keys-stored-in-my-lkm-service/) (Resource Center FAQ)
+- [IP addresses for the firewall allowlist](https://help.mypurecloud.com/articles/ip-addresses-for-the-firewall-allowlist/) (Genesys Cloud Resource Center)
