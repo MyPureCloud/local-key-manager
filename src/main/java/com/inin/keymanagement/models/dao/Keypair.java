@@ -1,5 +1,6 @@
 package com.inin.keymanagement.models.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.*;
@@ -25,6 +26,7 @@ public class Keypair {
     private String publicKey;
 
     @Column(name = "date_created")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private Date dateCreated;
 
     @JsonIgnore
