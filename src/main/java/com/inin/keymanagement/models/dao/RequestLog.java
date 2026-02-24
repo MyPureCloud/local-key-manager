@@ -1,6 +1,7 @@
 package com.inin.keymanagement.models.dao;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,6 +37,7 @@ public class RequestLog {
     private String requestMethod;
 
     @Column(name = "timestamp", columnDefinition = "TIMESTAMP(3)")
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private LocalDateTime timestamp;
 
     public RequestLog() {
