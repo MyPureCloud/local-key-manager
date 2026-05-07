@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.6</version>
     </parent>
 
     <properties>
@@ -22,13 +22,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <org.aspectj.version>1.9.25.0</org.aspectj.version>
         <ch.qos.logback.version>1.5.21</ch.qos.logback.version>
-        <com.fasterxml.jackson.version>2.19.4</com.fasterxml.jackson.version>
-        <jackson-bom.version>3.1.0</jackson-bom.version>
         <java.version>17</java.version>
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.24.3</log4j.version>
-        <tomcat.version>10.1.52</tomcat.version>
-        <spring-framework.version>7.0.6</spring-framework.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
 
@@ -183,13 +179,13 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.83</version>
+            <version>1.84</version>
         </dependency>
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpg-jdk18on</artifactId>
-            <version>1.83</version>
+            <version>1.84</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
