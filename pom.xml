@@ -27,8 +27,9 @@
         <java.version>17</java.version>
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.24.3</log4j.version>
-        <tomcat.version>10.1.52</tomcat.version>
+        <jackson-bom.version>3.1.0</jackson-bom.version>
         <spring-framework.version>7.0.6</spring-framework.version>
+        <tomcat.version>10.1.54</tomcat.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
 
