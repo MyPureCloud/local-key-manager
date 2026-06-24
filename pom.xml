@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.0.7</version>
     </parent>
 
     <properties>
@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <org.aspectj.version>1.9.25.0</org.aspectj.version>
-        <ch.qos.logback.version>1.5.21</ch.qos.logback.version>
+        <logback.version>1.5.36</logback.version>
         <java.version>17</java.version>
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.24.3</log4j.version>
