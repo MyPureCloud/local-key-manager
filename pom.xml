@@ -27,6 +27,7 @@
         <log4j.version>2.24.3</log4j.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <tomcat.version>11.0.23</tomcat.version>
+        <jackson-bom.version>3.1.5</jackson-bom.version>
     </properties>
 
     <dependencyManagement>
