@@ -26,9 +26,9 @@
         <scala.version>2.10.4</scala.version>
         <log4j.version>2.24.3</log4j.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
-        <tomcat.version>11.0.25</tomcat.version>
-        <jackson-bom.version>3.1.5</jackson-bom.version>
-        <bouncycastle.version>1.85</bouncycastle.version>
+        <tomcat.version>11.0.27</tomcat.version>
+        <jackson-bom.version>3.1.8</jackson-bom.version>
+        <bouncycastle.version>1.86</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>24.1.1-jre</version>
+            <version>33.7.2-jre</version>
         </dependency>
         <dependency>
             <groupId>org.mindrot</groupId>
