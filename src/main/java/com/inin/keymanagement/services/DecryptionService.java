@@ -55,9 +55,16 @@ public class DecryptionService {
             else {
                 decryptedBytes = cryptographyHelper.decryptKek(Base64.decodeBase64(keypair.getPrivateKey()), base64Text);
             }
+            
+            if (decryptedBytes == null) {
+                throw new BadRequestException("Failed to decrypt the provided data");
+            }
+            
             return new DecryptResponse(Base64.encodeBase64String(decryptedBytes));
+        } catch (BadRequestException e){
+            throw e;
         } catch (Exception e){
-            throw new RuntimeException("Unknown error with decryption");
+            throw new BadRequestException("Failed to decrypt the provided data");
         }
     }
 
