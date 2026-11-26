@@ -53,6 +53,35 @@ public class DecryptionServiceTest {
         });
     }
 
+    @Test
+    public void testDecryptionWithAlternativeBase64KeyRepresentations() {
+        assertAlternativeKeyRepresentations(false);
+    }
+
+    @Test
+    public void testPkcs1DecryptionWithAlternativeBase64KeyRepresentations() {
+        assertAlternativeKeyRepresentations(true);
+    }
+
+    private void assertAlternativeKeyRepresentations(boolean pkcs1) {
+        Keypair keypair = pkcs1 ? createCMSKeypair() : createKeypair();
+        String original = keypair.getPrivateKey();
+        String[] representations = {
+            original.replace('+', '-').replace('/', '_'),
+            original.replace("=", ""),
+            " \t\r\n" + original.substring(0, 20) + "\n" + original.substring(20)
+        };
+        when(keypairRepository.findById(keypair.getId())).thenReturn(Optional.of(keypair));
+        for (String representation : representations) {
+            keypair.setPrivateKey(representation);
+            DecryptResponse response = decryptionService.decrypt(
+                pkcs1 ? getPKCS1EncryptedDek() : getEncryptedKey(), keypair.getId(), pkcs1 ? "pkcs1" : null);
+            Assertions.assertEquals(pkcs1
+                ? "PKIKLwo2+u9VH4tDHRizx8Lk9eyz2H/yUA6P6uqsKy8="
+                : "7+YOUOgTgqOfhKRq0//eS94VrhyCwiYbQQcgfrOaG5g=", response.getBody());
+        }
+    }
+
     private Keypair createKeypair(){
         Keypair keypair = new Keypair();
         keypair.setDateCreated(new Date());
