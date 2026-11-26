@@ -5,7 +5,7 @@ import com.inin.keymanagement.models.dao.Keypair;
 import com.inin.keymanagement.models.dto.DecryptResponse;
 import com.inin.keymanagement.models.repositories.KeypairRepository;
 import com.inin.keymanagement.utils.CryptographyHelper;
-import org.apache.commons.codec.binary.Base64;
+import net.jalg.hawkj.util.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
